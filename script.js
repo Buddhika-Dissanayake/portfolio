@@ -1,6 +1,6 @@
 // Typewriter Effect
 const typedTextSpan = document.querySelector("#typewriter");
-const textArray = ["Statistician", "Data Scientist", , "Researcher", "Physicist"];
+const textArray = ["Statistician", "Data Scientist", "Researcher", "Physicist"];
 const typingDelay = 100;
 const erasingDelay = 100;
 const newTextDelay = 2000; // Delay between current and next text
