@@ -150,6 +150,7 @@ body {
     /* Center content vertically if needed, or just standard flow */
     flex-direction: column;
     justify-content: center;
+    scroll-margin-top: var(--nav-height);
 }
 
 .section-title {
@@ -590,9 +591,13 @@ body {
 
 /* Enhanced Mobile Optimization */
 @media (max-width: 768px) {
+    :root {
+        --nav-height: 60px;
+    }
+
     .section-title {
         font-size: 2rem;
-        margin-bottom: 40px;
+        margin-bottom: 28px;
     }
 
     .hero h1 {
@@ -621,18 +626,97 @@ body {
         font-size: 1.2rem;
     }
 
+    .menu-toggle {
+        display: block;
+        color: var(--accent-color);
+        min-width: 32px;
+        text-align: right;
+        position: absolute;
+        right: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .menu-toggle i {
+        display: none;
+    }
+
+    .menu-toggle::before {
+        content: "";
+        display: inline-block;
+        width: 24px;
+        height: 16px;
+        background:
+            linear-gradient(var(--accent-color), var(--accent-color)) 0 0 / 100% 2px no-repeat,
+            linear-gradient(var(--accent-color), var(--accent-color)) 0 7px / 100% 2px no-repeat,
+            linear-gradient(var(--accent-color), var(--accent-color)) 0 14px / 100% 2px no-repeat;
+    }
+
     .nav-links {
         display: none;
         /* Can be improved with a toggle later if requested */
+        position: absolute;
+        top: var(--nav-height);
+        left: 0;
+        width: 100%;
+        background: rgba(15, 23, 42, 0.98);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 14px 15px;
+    }
+
+    .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .nav-links li {
+        margin-left: 0;
     }
 
     .section {
-        padding: 60px 0;
+        min-height: auto;
+        padding: 42px 0;
+        justify-content: flex-start;
+    }
+
+    .hero {
+        min-height: 100svh;
+        height: auto;
+        padding-top: calc(var(--nav-height) + 32px);
+        padding-bottom: 48px;
+        justify-content: center;
+    }
+
+    .profile-img-container {
+        width: 140px;
+        height: 140px;
+        margin-bottom: 22px;
+    }
+
+    .tagline {
+        margin-bottom: 28px;
+    }
+
+    .about-content,
+    .card,
+    .skill-category,
+    .timeline-content {
+        padding: 22px;
+    }
+
+    .timeline-item {
+        margin-bottom: 32px;
+    }
+
+    .timeline-item:last-child {
+        margin-bottom: 0;
     }
 
     .skills-grid,
     .cards-grid {
         grid-template-columns: 1fr;
         /* Force single column on mobile */
+        gap: 22px;
     }
 }

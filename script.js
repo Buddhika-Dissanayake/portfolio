@@ -107,9 +107,19 @@ if (backgroundMusic && musicToggle) {
 }
 
 // Smooth Scrolling
+const menuToggle = document.querySelector(".menu-toggle");
+const mobileNavLinks = document.querySelector(".nav-links");
+
+if (menuToggle && mobileNavLinks) {
+    menuToggle.addEventListener("click", () => {
+        mobileNavLinks.classList.toggle("open");
+    });
+}
+
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
+        mobileNavLinks?.classList.remove("open");
 
         document.querySelector(this.getAttribute('href')).scrollIntoView({
             behavior: 'smooth'
