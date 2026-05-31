@@ -33,6 +33,79 @@ document.addEventListener("DOMContentLoaded", function () { // On DOM Load initi
     if (textArray.length) setTimeout(type, newTextDelay + 250);
 });
 
+// Background Music
+const backgroundMusic = document.querySelector("#background-music");
+const musicToggle = document.querySelector("#music-toggle");
+
+if (backgroundMusic && musicToggle) {
+    backgroundMusic.volume = 0.25;
+    let userPausedMusic = false;
+
+    const updateMusicToggle = () => {
+        const isPlaying = !backgroundMusic.paused;
+        musicToggle.classList.toggle("is-playing", isPlaying);
+        musicToggle.setAttribute("aria-pressed", String(isPlaying));
+        musicToggle.setAttribute(
+            "aria-label",
+            isPlaying ? "Mute background music" : "Play background music"
+        );
+        musicToggle.innerHTML = isPlaying
+            ? '<i class="fas fa-volume-high"></i>'
+            : '<i class="fas fa-volume-xmark"></i>';
+    };
+
+    const removeMusicUnlockListeners = () => {
+        document.removeEventListener("pointerdown", unlockBackgroundMusic);
+        document.removeEventListener("mousedown", unlockBackgroundMusic);
+        document.removeEventListener("click", unlockBackgroundMusic);
+        window.removeEventListener("scroll", unlockBackgroundMusic);
+        window.removeEventListener("wheel", unlockBackgroundMusic);
+        window.removeEventListener("touchstart", unlockBackgroundMusic);
+        window.removeEventListener("touchmove", unlockBackgroundMusic);
+        window.removeEventListener("keydown", unlockBackgroundMusic);
+    };
+
+    const playBackgroundMusic = () => {
+        if (userPausedMusic) return;
+
+        backgroundMusic.play()
+            .then(() => {
+                removeMusicUnlockListeners();
+                updateMusicToggle();
+            })
+            .catch(updateMusicToggle);
+    };
+
+    const unlockBackgroundMusic = (e) => {
+        if (e.target instanceof Element && e.target.closest("#music-toggle")) return;
+        userPausedMusic = false;
+        playBackgroundMusic();
+    };
+
+    musicToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (backgroundMusic.paused) {
+            userPausedMusic = false;
+            playBackgroundMusic();
+        } else {
+            userPausedMusic = true;
+            backgroundMusic.pause();
+            updateMusicToggle();
+        }
+    });
+
+    playBackgroundMusic();
+    document.addEventListener("pointerdown", unlockBackgroundMusic);
+    document.addEventListener("mousedown", unlockBackgroundMusic);
+    document.addEventListener("click", unlockBackgroundMusic);
+    window.addEventListener("scroll", unlockBackgroundMusic, { passive: true });
+    window.addEventListener("wheel", unlockBackgroundMusic, { passive: true });
+    window.addEventListener("touchstart", unlockBackgroundMusic, { passive: true });
+    window.addEventListener("touchmove", unlockBackgroundMusic, { passive: true });
+    window.addEventListener("keydown", unlockBackgroundMusic);
+    updateMusicToggle();
+}
+
 // Smooth Scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
